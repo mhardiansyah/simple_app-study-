@@ -1,3 +1,7 @@
+// ignore_for_file: avoid_print
+
+import 'package:app_simple/core/models/menu_items.dart';
+import 'package:app_simple/service/menu_service.dart';
 import 'package:flutter/material.dart';
 
 class AddMenuScreen extends StatefulWidget {
@@ -16,7 +20,8 @@ class _AddMenuScreenState extends State<AddMenuScreen> {
   bool _isAvailable = false;
 
   final List<String> _categories = ['Makanan', 'Minuman', 'Snack'];
-  final List<int> _spicyLevels = List.generate(10, (index) => index + 1); // 1 to 10
+  final List<int> _spicyLevels =
+      List.generate(10, (index) => index + 1); // 1 to 10
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +120,15 @@ class _AddMenuScreenState extends State<AddMenuScreen> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     // Handle form submission
+                    final newMenuitems = MenuItems(
+                      name: _nameController.text,
+                      price: int.parse(_priceController.text),
+                      desc: _descriptionController.text,
+                      category: _selectedCategory!,
+                      spicyLevel: _selectedSpicyLevel!,
+                      isAvailable: _isAvailable,
+                    );
+                    MenuService().addMenu(newMenuitems, context);
                     print('Nama Menu: ${_nameController.text}');
                     print('Harga Menu: ${_priceController.text}');
                     print('Deskripsi: ${_descriptionController.text}');

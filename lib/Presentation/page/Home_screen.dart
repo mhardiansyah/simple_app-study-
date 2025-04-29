@@ -1,4 +1,5 @@
 import 'package:app_simple/core/Routing/App_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Home"),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.green,
         actions: [
           IconButton(
             icon: Icon(Icons.notification_add),
@@ -32,27 +33,29 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: Drawer(
         child: Column(
           children: [
-            UserAccountsDrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
-              accountName: Text(
-                "Muhammad Hardiansyah Setiadi",
-                style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-              ),
-              accountEmail: Text(
-                "abroqy@gmail.com",
-                style: GoogleFonts.poppins(),
-              ),
-              currentAccountPicture: CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Text(
-                  "MH",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue,
-                  ),
-                ),
-              ),
+            FutureBuilder(
+              future: FirebaseAuth.instance.authStateChanges().first,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final User user = snapshot.data!;
+                  return UserAccountsDrawerHeader(
+                    accountName: Text(user.displayName ?? "User"),
+                    accountEmail: Text(user.email ?? "Email"),
+                    currentAccountPicture: CircleAvatar(
+                      backgroundImage: AssetImage(
+                          user.photoURL ?? "assets/icons/download.jpg"),
+                    ),
+                  );
+                } else {
+                  return UserAccountsDrawerHeader(
+                    accountName: Text("User"),
+                    accountEmail: Text("Email"),
+                    currentAccountPicture: CircleAvatar(
+                      backgroundImage: AssetImage("assets/icons/download.jpg"),
+                    ),
+                  );
+                }
+              },
             ),
             ListTile(
               leading: Icon(Icons.logout),
@@ -154,8 +157,8 @@ Widget _buildMenuItem(IconData icon, String label) {
     children: [
       CircleAvatar(
         radius: 30,
-        backgroundColor: Colors.blue[100],
-        child: Icon(icon, size: 30, color: Colors.blue),
+        backgroundColor: Colors.green,
+        child: Icon(icon, size: 30, color: Colors.white),
       ),
       SizedBox(height: 8),
       Text(

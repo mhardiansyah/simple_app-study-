@@ -5,6 +5,7 @@ import 'package:app_simple/Presentation/page/Register_screen.dart';
 import 'package:app_simple/Presentation/page/add_menu_screen.dart';
 import 'package:app_simple/Presentation/page/edit_menu_screen.dart';
 import 'package:app_simple/Presentation/page/forgot_password.dart';
+import 'package:app_simple/core/models/menu_items.dart';
 import 'package:go_router/go_router.dart';
 
 part 'Route_name.dart';
@@ -43,6 +44,9 @@ final appRoute = [
   GoRoute(
     path: '/editmenu',
     name: Routes.editmenu,
-    builder: (context, state) => EditMenuScreen(),
+    builder: (context, state) {
+      final menuitems = state.extra as MenuItems;
+     return EditMenuScreen(menuItems: menuitems);
+    },
   ),
 ];

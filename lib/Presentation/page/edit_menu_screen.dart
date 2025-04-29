@@ -1,12 +1,12 @@
+import 'package:app_simple/core/models/menu_items.dart';
 import 'package:flutter/material.dart';
 
 class EditMenuScreen extends StatefulWidget {
-  const EditMenuScreen({super.key});
+  final MenuItems? menuItems;
+  const EditMenuScreen({required this.menuItems, super.key});
 
   @override
   State<EditMenuScreen> createState() => _EditMenuScreenState();
-  
-
 }
 
 class _EditMenuScreenState extends State<EditMenuScreen> {
@@ -20,7 +20,26 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
   bool _isAvailable = false;
 
   final List<String> _categories = ['Makanan', 'Minuman', 'Snack'];
-  final List<int> _spicyLevels = List.generate(10, (index) => index + 1); 
+  final List<int> _spicyLevels = List.generate(10, (index) => index + 1);
+
+  getData() {
+    setState(() {
+      _nameController.text = widget.menuItems!.name;
+      _priceController.text = widget.menuItems!.price.toString();
+      _descriptionController.text = widget.menuItems!.desc;
+      _selectedCategory = widget.menuItems!.category;
+      _selectedSpicyLevel = widget.menuItems!.spicyLevel;
+      _isAvailable = widget.menuItems!.isAvailable;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,6 +137,7 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     // Handle form submission
+
                     print('Nama Menu: ${_nameController.text}');
                     print('Harga Menu: ${_priceController.text}');
                     print('Deskripsi: ${_descriptionController.text}');
