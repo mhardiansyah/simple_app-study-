@@ -35,5 +35,29 @@ class MenuService {
     );
   }
 
-  Future updateMenu() async {}
+  Future updateMenu(MenuItems menuitems, BuildContext context) async {
+    try {
+      await _menuCollection.doc(menuitems.id).update(menuitems.toJson());
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Update Success')));
+      context.goNamed(Routes.menu);
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Update Failed')));
+      print('Error adding document: $e');
+    } 
+  } 
+
+  Future deleteMenu(String id, BuildContext context) async {
+    try {
+      await _menuCollection.doc(id).delete();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Delete Success')));
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Delete Failed')));
+      print('Error adding document: $e');
+    }
+  }
+  
 }

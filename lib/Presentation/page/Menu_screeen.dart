@@ -83,6 +83,8 @@ class MenuScreen extends StatelessWidget {
                                       TextButton(
                                         onPressed: () {
                                           // Tambahkan aksi delete di sini
+                                          MenuService()
+                                              .deleteMenu(data.id!, context);
                                           Navigator.of(context)
                                               .pop(); // Tutup dialog
                                         },

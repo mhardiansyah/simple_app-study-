@@ -1,4 +1,5 @@
 import 'package:app_simple/core/models/menu_items.dart';
+import 'package:app_simple/service/menu_service.dart';
 import 'package:flutter/material.dart';
 
 class EditMenuScreen extends StatefulWidget {
@@ -137,7 +138,16 @@ class _EditMenuScreenState extends State<EditMenuScreen> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     // Handle form submission
-
+                    final newMenuitems = MenuItems(
+                      id: widget.menuItems!.id,
+                      name: _nameController.text,
+                      price: int.parse(_priceController.text),
+                      desc: _descriptionController.text,
+                      category: _selectedCategory!,
+                      spicyLevel: _selectedSpicyLevel!,
+                      isAvailable: _isAvailable,
+                    );
+                    MenuService().updateMenu(newMenuitems, context);
                     print('Nama Menu: ${_nameController.text}');
                     print('Harga Menu: ${_priceController.text}');
                     print('Deskripsi: ${_descriptionController.text}');

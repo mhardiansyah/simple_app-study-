@@ -19,7 +19,7 @@ class MenuItems {
 
   factory MenuItems.fromJson(Map<String, dynamic> json, String id) {
     return MenuItems(
-      id: json['id'],
+      id: id,
       name: json['name'],
       price: json['price'],
       desc: json['desc'],
@@ -39,5 +39,4 @@ class MenuItems {
       'isAvailable': isAvailable,
     };
   }
-  
 }
