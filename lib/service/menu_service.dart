@@ -45,8 +45,8 @@ class MenuService {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Update Failed')));
       print('Error adding document: $e');
-    } 
-  } 
+    }
+  }
 
   Future deleteMenu(String id, BuildContext context) async {
     try {
@@ -59,5 +59,4 @@ class MenuService {
       print('Error adding document: $e');
     }
   }
-  
 }

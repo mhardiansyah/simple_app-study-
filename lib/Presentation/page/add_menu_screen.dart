@@ -1,8 +1,12 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, library_private_types_in_public_api, use_key_in_widget_constructors
+
+import 'dart:typed_data';
 
 import 'package:app_simple/core/models/menu_items.dart';
 import 'package:app_simple/service/menu_service.dart';
+import 'package:app_simple/service/upload_sevice.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 
 class AddMenuScreen extends StatefulWidget {
   @override
@@ -20,8 +24,24 @@ class _AddMenuScreenState extends State<AddMenuScreen> {
   bool _isAvailable = false;
 
   final List<String> _categories = ['Makanan', 'Minuman', 'Snack'];
-  final List<int> _spicyLevels =
-      List.generate(10, (index) => index + 1); // 1 to 10
+  final List<int> _spicyLevels = List.generate(10, (index) => index + 1);
+
+  Uint8List? imgData;
+  String? imgUrl;
+  Future pilihDanUploadImg() async {
+    final image = await ImagePickerWeb.getImageAsBytes();
+    if (image == null) return;
+
+    setState(() {
+      imgData = image;
+    });
+    final url = await uploadService().uploadImage(image);
+    if (url != null) {
+      setState(() {
+        imgUrl = url;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +137,16 @@ class _AddMenuScreenState extends State<AddMenuScreen> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
+                onPressed: () => pilihDanUploadImg(),
+                child: Text('Upload Image'),
+              ),
+              SizedBox(height: 20),
+              if (imgUrl != null) ...[
+                Text("gambar terupload"),
+                Image.network(imgUrl!),
+                SizedBox(height: 20),
+              ],
+              ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     // Handle form submission
@@ -127,14 +157,9 @@ class _AddMenuScreenState extends State<AddMenuScreen> {
                       category: _selectedCategory!,
                       spicyLevel: _selectedSpicyLevel!,
                       isAvailable: _isAvailable,
+                      imgUrl: imgUrl,
                     );
                     MenuService().addMenu(newMenuitems, context);
-                    print('Nama Menu: ${_nameController.text}');
-                    print('Harga Menu: ${_priceController.text}');
-                    print('Deskripsi: ${_descriptionController.text}');
-                    print('Kategori: $_selectedCategory');
-                    print('Spicy Level: $_selectedSpicyLevel');
-                    print('Available: $_isAvailable');
                   }
                 },
                 child: Text('Submit'),

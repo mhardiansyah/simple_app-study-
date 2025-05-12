@@ -6,6 +6,7 @@ class MenuItems {
   final String category;
   final int spicyLevel;
   final bool isAvailable;
+  String? imgUrl;
 
   MenuItems({
     this.id,
@@ -15,6 +16,7 @@ class MenuItems {
     required this.category,
     required this.spicyLevel,
     required this.isAvailable,
+    this.imgUrl,
   });
 
   factory MenuItems.fromJson(Map<String, dynamic> json, String id) {
@@ -26,6 +28,7 @@ class MenuItems {
       category: json['category'],
       spicyLevel: json['spicyLevel'],
       isAvailable: json['isAvailable'],
+      imgUrl: json['imgUrl'],
     );
   }
 
@@ -37,6 +40,7 @@ class MenuItems {
       'category': category,
       'spicyLevel': spicyLevel,
       'isAvailable': isAvailable,
+      'imgUrl': imgUrl
     };
   }
 }

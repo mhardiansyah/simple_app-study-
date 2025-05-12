@@ -8,4 +8,5 @@ class Routes {
   static const String menu = '/menu';
   static const String addmenu = '/addmenu';
   static const String editmenu = '/editmenu';
+  static const String transaction = '/transaction';
 }

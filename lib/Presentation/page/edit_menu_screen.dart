@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:app_simple/core/models/menu_items.dart';
 import 'package:app_simple/service/menu_service.dart';
 import 'package:flutter/material.dart';

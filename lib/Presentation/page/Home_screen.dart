@@ -140,7 +140,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 InkWell(
                     onTap: () => context.goNamed(Routes.menu),
                     child: _buildMenuItem(Icons.restaurant, "Restaurant")),
-                _buildMenuItem(Icons.shopping_cart, "Penjualan"),
+                InkWell(
+                    onTap: () => context.goNamed(Routes.transaction),
+                    child: _buildMenuItem(Icons.shopping_cart, "Penjualan")),
                 _buildMenuItem(Icons.bar_chart, "Laporan"),
               ],
             ),
